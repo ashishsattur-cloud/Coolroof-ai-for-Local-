@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cool Roof AI</title>
+    <meta
+      name="description"
+      content="AI-powered cool roof and interior material suggestions for naturally cooler homes."
+    />
+
+    <!-- Leaflet CSS -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+
+    <!-- App stylesheet -->
+    <link rel="stylesheet" href="./style_endd.css" />
+  </head>
+  <body>
+    <div id="app">
+      <!-- ===== Sidebar ===== -->
+      <aside id="sidebar" aria-label="Weather controls">
+        <header class="sidebar-header">
+          <h1>Cool Roof AI</h1>
+          <p class="tagline">Smart material suggestions for naturally cooler homes</p>
+        </header>
+
+        <!-- Location search -->
+        <section class="panel">
+          <label for="search-input" class="panel-title">Search location</label>
+          <form id="search-form" class="search-row" autocomplete="off">
+            <input
+              id="search-input"
+              type="search"
+              placeholder="City name or lat, lon (e.g. 28.61, 77.20)"
+              aria-label="City name"
+            />
+            <button type="submit" id="search-btn">Go</button>
+          </form>
+          <ul id="search-results" class="search-results" hidden></ul>
+        </section>
+
+        <!-- Cool Roof AI panel -->
+        <section class="panel cool-roof-panel" id="cool-roof-panel" hidden>
+          <h2 class="panel-title">🌿 Cool Roof AI</h2>
+
+          <!-- User Profile Form -->
+          <div class="profile-form">
+            <label>
+              Roof Area (sq ft)
+              <input id="prof-roof-area" type="number" min="100" placeholder="e.g. 1200" value="1000" />
+            </label>
+            <label>
+              Roof Type
+              <select id="prof-roof-type">
+                <option value="flat">Flat</option>
+                <option value="sloped">Sloped</option>
+                <option value="shed">Shed / Single-pitch</option>
+                <option value="hip">Hip Roof</option>
+                <option value="terrace">Terrace</option>
+              </select>
+            </label>
+            <label>
+              Budget (INR)
+              <input id="prof-budget" type="text" placeholder="e.g. ₹1,50,000" value="₹1,50,000" />
+            </label>
+            <label>
+              Heat Island Severity
+              <select id="prof-heat-index">
+                <option value="Low">Low</option>
+                <option value="Medium" selected>Medium</option>
+                <option value="High">High</option>
+              </select>
+            </label>
+            <label class="full-width">
+              Solar Radiation (kWh/m²/day)
+              <input id="prof-solar" type="number" step="0.1" min="1" max="10" placeholder="e.g. 5.5" value="5.5" />
+            </label>
+          </div>
+
+          <button id="analyse-btn" disabled>
+            📍 Select a location first
+          </button>
+
+          <!-- AI result renders here -->
+          <div id="cool-roof-content" style="margin-top:12px;">
+            <p class="info-empty">Search or click a location, fill your profile, then click Analyse.</p>
+          </div>
+        </section>
+
+        <!-- Layer toggles -->
+        <section class="panel">
+          <h2 class="panel-title">Weather layers</h2>
+          <div class="layer-toggles">
+            <label class="toggle">
+              <input type="checkbox" data-layer="temp" checked />
+              <span>Temperature</span>
+            </label>
+            <label class="toggle">
+              <input type="checkbox" data-layer="clouds" />
+              <span>Clouds</span>
+            </label>
+            <label class="toggle">
+              <input type="checkbox" data-layer="precipitation" />
+              <span>Precipitation</span>
+            </label>
+            <label class="toggle">
+              <input type="checkbox" data-layer="wind" />
+              <span>Wind</span>
+            </label>
+          </div>
+        </section>
+
+        <!-- Current conditions -->
+        <section class="panel info-panel">
+          <h2 class="panel-title">Climate Input</h2>
+          <div id="info-content">
+            <p class="info-empty">
+              Click anywhere on the map, or search a city, to see live weather.
+            </p>
+          </div>
+        </section>
+
+        <footer class="sidebar-footer">
+          <p>
+            Data: <a href="https://openweathermap.org/" target="_blank" rel="noopener">OpenWeatherMap</a><br />
+            Map tiles: <a href="https://www.esri.com/" target="_blank" rel="noopener">Esri</a>
+          </p>
+          <p id="api-key-warning" class="warning" hidden>
+            Add your OpenWeatherMap API key in <code>js/api.js</code> to enable live weather data.
+          </p>
+          <p id="gemini-key-warning" class="warning" hidden>
+            Add your free Groq API key in <code>js/api.js</code> to enable Cool Roof AI.
+            <a href="https://console.groq.com" target="_blank" rel="noopener">Get free key</a>
+          </p>
+        </footer>
+      </aside>
+
+      <!-- ===== Map ===== -->
+      <main id="map" aria-label="Interactive weather map"></main>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
+
+    <!-- App scripts (plain scripts — no modules, works with file://) -->
+    <script src="./api.js"></script>
+    <script src="./map.js"></script>
+    <script src="./main.js"></script>
+  </body>
+</html>
