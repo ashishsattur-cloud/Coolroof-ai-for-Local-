@@ -16,7 +16,7 @@ var OPENWEATHER_API_KEY = "871c04fbd34261144997b2135cfedd50";
    ⚠️  INSERT YOUR GROQ API KEY HERE
    Free key at: https://console.groq.com
    ============================================================ */
-var GROQ_API_KEY = "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";
+var GROQ_API_KEY = "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";
 
 var BASE_URL   = "https://api.openweathermap.org";
 var TILE_URL   = "https://tile.openweathermap.org/map";
